@@ -15,7 +15,7 @@ public class IncreasingTripletSubsequence{
         int i = 0;
         boolean possible = false;
         while (!possible && i < nums.length){
-            possible = checkPath(nums,i,0);
+            possible = checkPath(nums,i,0,biggest);
             i++;
         }
         return possible;
@@ -25,14 +25,14 @@ public class IncreasingTripletSubsequence{
 
         boolean possible = false;
 
-
         level++;
         if (level == 3){ return true;}
+        if (biggest - nums[x] < 3 - level){return  false;}
 
         int i = x + 1;
         while (!possible && i < nums.length){
             if (nums[x] < nums[i]){
-                possible = checkPath(nums,i,level);
+                possible = checkPath(nums,i,level,biggest);
             }
             i++;
         }
