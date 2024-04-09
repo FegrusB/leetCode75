@@ -2,6 +2,8 @@ package leet.code.ArraysStrings;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProductOfArrayExceptSelf {
 
@@ -11,29 +13,24 @@ public class ProductOfArrayExceptSelf {
 
     public static int[] productExceptSelf(int[] nums) {
 
-        int[] out = new int[nums.length];
+        int i = 0;
 
-        out[0] = nums[0];
+        HashMap<Integer,Integer> productMap = new HashMap<>();
 
-        for(int i = 1; i < nums.length;i++){
-            out[i] = out[i-1] * nums[i];
-            nums[i] = suffix(nums,i);
+        while (i< nums.length && productMap.size() < 61){
+            if (!productMap.containsKey(nums[i])){
+                productMap.put(nums[i],calc(nums,i));
+            }
+            i++;
         }
 
-        out[nums.length-1] = out[nums.length-2];
+        for (int j = 0; j < nums.length; j++) {nums[j] = productMap.get(nums[j]);}
 
-        for(int i = nums.length-2;i > 0; i--){
-            out[i] = out[i-1] * nums[i+1];
-        }
-        out[0] = suffix(nums,0);
-        return out;
+        return nums;
     }
-    public static int suffix(int[] nums, int i){
-        if(i + 1 == nums.length){return 0;}
+    public static int calc(int[] nums, int i){
         int out = 1;
-        for (int x = i + 1; x < nums.length; x++) {
-            out = nums[x] * out;
-        }
+        for (int j = 0; j < nums.length; j++) {if (j != i){ out = out * nums[j];}}
         return out;
     }
 }
