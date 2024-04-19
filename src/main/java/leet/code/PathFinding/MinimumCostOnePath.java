@@ -23,7 +23,6 @@ public class MinimumCostOnePath {
         int[][] cordDiffs = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 
         PriorityQueue<coord> queue = new PriorityQueue<>();
-        boolean[][] visitedBoard = new boolean[grid.length][grid[0].length];
 
         queue.add(new coord(0, 0, 0, new ArrayList<>()));
 
@@ -36,8 +35,8 @@ public class MinimumCostOnePath {
             }
 
             for (int[] difs : cordDiffs) {
-                int nextX = current.getX() + difs[0];
-                int nextY = current.getY() + difs[1];
+                int nextX = current.getY() + difs[1];
+                int nextY = current.getX() + difs[0];
 
                 if ((nextX < 0 || nextX > endX) || (nextY < 0 || nextY > endY)) {
                     continue;
@@ -46,7 +45,7 @@ public class MinimumCostOnePath {
                     continue;
                 }
 
-                int addedCost = switch (grid[current.getY()][current.getX()]) {
+                int addedCost = switch (grid[current.getX()][current.getY()]) {
                     case 1: {
                         if (difs[1] == 1 && difs[0] == 0) {
                             yield 0;
