@@ -31,7 +31,7 @@ public class MinimumCostOnePath {
         while (true) {
             coord current = queue.poll();
             assert current != null;
-            visited[current.y][current.x] = true;
+            visited[current.getY()][current.getX()] = true;
             if (current.getX() == endX && current.getY() == endY) {
                 return current.cost;
             }
@@ -44,7 +44,7 @@ public class MinimumCostOnePath {
                     continue;
                 }
                 if (visited[nextY][nextX]) {
-                    if (current.checkHistory(new int[]{current.getX(),current.getY()})){
+                    if (current.checkHistory(new int[]{nextX,nextY})){
                         continue;
                     }
                 }
