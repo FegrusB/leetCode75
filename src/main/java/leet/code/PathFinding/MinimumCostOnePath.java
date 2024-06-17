@@ -12,15 +12,15 @@ public class MinimumCostOnePath {
     }
 
     public void start() {
-        System.out.println(minCost(new int[][]{{1,1,3},{3,2,2},{1,1,4}}));
+        System.out.println(minCost(new int[][]{{2,2,2},{2,2,2}}));
     }
 
     public int minCost(int[][] grid) {
 
-        int endX = grid.length - 1;
-        int endY = grid[0].length - 1;
+        int endX = grid[0].length - 1;
+        int endY = grid.length - 1;
 
-        int[][] cordDiffs = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+        int[][] cordDiffs = {{0, 1}, {0, -1},{1, 0},{-1, 0}};
 
         PriorityQueue<coord> queue = new PriorityQueue<>();
 
@@ -35,8 +35,8 @@ public class MinimumCostOnePath {
             }
 
             for (int[] difs : cordDiffs) {
-                int nextX = current.getY() + difs[1];
-                int nextY = current.getX() + difs[0];
+                int nextY = current.getY() + difs[0];
+                int nextX = current.getX() + difs[1];
 
                 if ((nextX < 0 || nextX > endX) || (nextY < 0 || nextY > endY)) {
                     continue;
@@ -45,30 +45,30 @@ public class MinimumCostOnePath {
                     continue;
                 }
 
-                int addedCost = switch (grid[current.getX()][current.getY()]) {
+                int addedCost = switch (grid[current.getY()][current.getX()]) {
                     case 1: {
-                        if (difs[1] == 1 && difs[0] == 0) {
+                        if (difs == cordDiffs[0]) {
                             yield 0;
                         } else {
                             yield 1;
                         }
                     }
                     case 2: {
-                        if (difs[1] == -1 && difs[0] == 0) {
+                        if (difs == cordDiffs[1]) {
                             yield 0;
                         } else {
                             yield 1;
                         }
                     }
                     case 3: {
-                        if (difs[1] == 0 && difs[0] == 1) {
+                        if (difs == cordDiffs[2]) {
                             yield 0;
                         } else {
                             yield 1;
                         }
                     }
                     case 4: {
-                        if (difs[1] == 0 && difs[0] == -1) {
+                        if (difs == cordDiffs[3]) {
                             yield 0;
                         } else {
                             yield 1;
@@ -95,7 +95,7 @@ public class MinimumCostOnePath {
             this.x = xIn;
             this.y = yIn;
             this.cost = costIn;
-            this.history = historyIn;
+            this.history = new ArrayList<>(historyIn);
             this.history.add(new int[]{this.x, this.y});
         }
 
