@@ -12,7 +12,7 @@ public class MinimumCostOnePath {
     }
 
     public void start() {
-        System.out.println(minCost(new int[][]{{2,2,2},{2,2,2}}));
+        System.out.println(minCost(new int[][]{{1,3,3,3},{2,2,1,2},{4,3,3,4},{3,2,2,3},{3,2,1,3},{4,1,4,3},{3,3,1,2}}));
     }
 
     public int minCost(int[][] grid) {
@@ -44,7 +44,9 @@ public class MinimumCostOnePath {
                     continue;
                 }
                 if (visited[nextY][nextX]) {
-                    continue;
+                    if (current.checkHistory(new int[]{current.getX(),current.getY()})){
+                        continue;
+                    }
                 }
 
                 int addedCost = 1;
