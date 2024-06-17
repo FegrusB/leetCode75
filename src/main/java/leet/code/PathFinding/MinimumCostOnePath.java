@@ -20,13 +20,13 @@ public class MinimumCostOnePath {
         int endX = grid[0].length - 1;
         int endY = grid.length - 1;
 
-        int[][] cordDiffs = {{0,0},{0, 1}, {0, -1},{1, 0},{-1, 0}};
+        int[][] cordDiffs = {{0,0},{0,  1}, {0, -1},{1, 0},{-1, 0}};
 
         boolean[][] visited = new boolean[grid.length][grid[0].length];
 
         PriorityQueue<coord> queue = new PriorityQueue<>();
 
-        queue.add(new coord(0, 0, 0, new ArrayList<>()));
+        queue.add(new coord(0, 0, 0));
 
         while (true) {
             coord current = queue.poll();
@@ -36,7 +36,7 @@ public class MinimumCostOnePath {
                 return current.cost;
             }
 
-            for (int i = 1;i < 4; i++) {
+            for (int i = 1;i < 5; i++) {
                 int nextY = current.getY() + cordDiffs[i][0];
                 int nextX = current.getX() + cordDiffs[i][1];
 
@@ -44,14 +44,14 @@ public class MinimumCostOnePath {
                     continue;
                 }
                 if (visited[nextY][nextX]) {
-                    if (current.checkHistory(new int[]{nextX,nextY})){
-                        continue;
-                    }
+
+                    continue;
+
                 }
 
                 int addedCost = 1;
                 if (grid[current.getY()][current.getX()] == i) {addedCost =0;}
-                queue.add(new coord(nextX, nextY, current.getCost() + addedCost, current.getHistory()));
+                queue.add(new coord(nextX, nextY, current.getCost() + addedCost));
             }
         }
     }
@@ -62,14 +62,10 @@ public class MinimumCostOnePath {
         private final int y;
         private final int cost;
 
-        private ArrayList<int[]> history;
-
-        public coord(int xIn, int yIn, int costIn, ArrayList<int[]> historyIn) {
+        public coord(int xIn, int yIn, int costIn) {
             this.x = xIn;
             this.y = yIn;
             this.cost = costIn;
-            this.history = new ArrayList<>(historyIn);
-            this.history.add(new int[]{this.x, this.y});
         }
 
         public int getX() {
@@ -82,20 +78,6 @@ public class MinimumCostOnePath {
 
         public int getCost() {
             return cost;
-        }
-
-        public ArrayList<int[]> getHistory() {
-            return this.history;
-        }
-
-        public boolean checkHistory(int[] check) {
-            boolean out = false;
-            for (int[] contents : this.history) {
-                if (Arrays.equals(check, contents)) {
-                    out = true;
-                    break;
-                }}
-            return out;
         }
 
         @Override
